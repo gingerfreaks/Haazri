@@ -477,7 +477,7 @@ main{padding-top:18px!important}
 #matrix td[data-cycle]:focus-visible{outline:2px solid #0a6ed1;outline-offset:-2px}
 /* phones: keep Student / Status / Actions in view without sideways scrolling */
 @media(max-width:400px){#dailyTablePane th,#dailyTablePane td{padding-left:6px;padding-right:6px}#dailyBody .status-btn{min-width:56px;padding-left:6px;padding-right:6px}}
-@media(max-width:767px){input,select,textarea{font-size:16px!important}}
+@supports (-webkit-touch-callout:none){input,select,textarea{font-size:16px!important}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media print{#side,.app-header,.subnav,[data-action],.splitter-divider{display:none!important}body{padding:0!important;background:#fff}}
 button:disabled{opacity:.5;cursor:not-allowed}
