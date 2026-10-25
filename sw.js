@@ -1,10 +1,12 @@
 'use strict';
-const VERSION='v4';
+const VERSION='v5';
 const SHELL=`trackie-shell-${VERSION}`,LIBS='trackie-libs';
-const PRECACHE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./apple-touch-icon.png'];
+// Every file is cached on its own, so one missing file (an icon, or the optional local Excel library)
+// no longer makes the whole install fail.
+const PRECACHE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./apple-touch-icon.png','./xlsx.full.min.js'];
 const LIB_HOSTS=['cdn.sheetjs.com','cdnjs.cloudflare.com','fonts.googleapis.com','fonts.gstatic.com'];
 
-self.addEventListener('install',e=>{e.waitUntil(caches.open(SHELL).then(c=>c.addAll(PRECACHE)).then(()=>self.skipWaiting()))});
+self.addEventListener('install',e=>{e.waitUntil(caches.open(SHELL).then(c=>Promise.all(PRECACHE.map(u=>c.add(u).catch(()=>{})))).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('trackie-shell-')&&k!==SHELL).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 
 self.addEventListener('fetch',e=>{
